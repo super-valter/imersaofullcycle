@@ -1,1 +1,1 @@
-/palavras.txt
+palavras.txt
