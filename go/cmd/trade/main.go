@@ -20,14 +20,14 @@ func main() {
 
 	kafkaMsgChan := make(chan *ckafka.Message)
 	configMap := &ckafka.ConfigMap{
-		"boostrap.servers":  "host.docker.internal:9094",
+		"bootstrap.servers": "host.docker.internal:9094",
 		"group.id":          "mygroup",
 		"auto.offset.reset": "latest",
 	}
 	producer := kafka.NewKafkaProducer(configMap)
 	kafka := kafka.NewConsumer(configMap, []string{"input"})
 
-	go kafka.Consumer(kafkaMsgChan) //T2
+	go kafka.Consume(kafkaMsgChan) // T2
 
 	// recebe do canal do kafka, joga no input, processa joga no output e depois publica no kafka
 	book := entity.NewBook(ordersIn, ordersOut, wg)
