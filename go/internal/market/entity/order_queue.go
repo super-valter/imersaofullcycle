@@ -16,7 +16,7 @@ func (oq *OrderQueue) Len() int {
 	return len(oq.Orders)
 }
 
-func (oq *OrderQueue) Push(x any) {
+func (oq *OrderQueue) Push(x interface{}) {
 	oq.Orders = append(oq.Orders, x.(*Order))
 }
 
@@ -30,5 +30,4 @@ func (oq *OrderQueue) Pop() interface{} {
 
 func NewOrderQueue() *OrderQueue {
 	return &OrderQueue{}
-
 }

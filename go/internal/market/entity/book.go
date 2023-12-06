@@ -8,7 +8,7 @@ import (
 type Book struct {
 	Order         []*Order
 	Transactions  []*Transaction
-	OrdersChan    chan *Order
+	OrdersChan    chan *Order // input
 	OrdersChanOut chan *Order
 	Wg            *sync.WaitGroup
 }
@@ -24,13 +24,13 @@ func NewBook(orderChan chan *Order, orderChanOut chan *Order, wg *sync.WaitGroup
 }
 
 func (b *Book) Trade() {
-	/* buyOrders := NewOrderQueue()
-	sellOrders := NewOrderQueue()
-	heap.Init(buyOrders)
-	heap.Init(sellOrders) */
-
 	buyOrders := make(map[string]*OrderQueue)
 	sellOrders := make(map[string]*OrderQueue)
+	// buyOrders := NewOrderQueue()
+	// sellOrders := NewOrderQueue()
+
+	// heap.Init(buyOrders)
+	// heap.Init(sellOrders)
 
 	for order := range b.OrdersChan {
 		asset := order.Asset.ID
@@ -78,19 +78,16 @@ func (b *Book) Trade() {
 				}
 			}
 		}
-
 	}
 }
 
 func (b *Book) AddTransaction(transaction *Transaction, wg *sync.WaitGroup) {
-
 	defer wg.Done()
 
 	sellingShares := transaction.SellingOrder.PendingShares
 	buyingShares := transaction.BuyingOrder.PendingShares
 
 	minShares := sellingShares
-
 	if buyingShares < minShares {
 		minShares = buyingShares
 	}

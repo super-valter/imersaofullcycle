@@ -13,7 +13,7 @@ type Transaction struct {
 	Shares       int
 	Price        float64
 	Total        float64
-	DataTime     time.Time
+	DateTime     time.Time
 }
 
 func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price float64) *Transaction {
@@ -25,7 +25,7 @@ func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price f
 		Shares:       shares,
 		Price:        price,
 		Total:        total,
-		DataTime:     time.Now(),
+		DateTime:     time.Now(),
 	}
 }
 

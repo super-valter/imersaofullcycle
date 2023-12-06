@@ -21,7 +21,7 @@ func main() {
 	kafkaMsgChan := make(chan *ckafka.Message)
 	configMap := &ckafka.ConfigMap{
 		"bootstrap.servers": "host.docker.internal:9094",
-		"group.id":          "mygroup",
+		"group.id":          "myGroup",
 		"auto.offset.reset": "latest",
 	}
 	producer := kafka.NewKafkaProducer(configMap)
@@ -31,7 +31,7 @@ func main() {
 
 	// recebe do canal do kafka, joga no input, processa joga no output e depois publica no kafka
 	book := entity.NewBook(ordersIn, ordersOut, wg)
-	go book.Trade() //T3
+	go book.Trade() // T3
 
 	go func() {
 		for msg := range kafkaMsgChan {
@@ -48,13 +48,12 @@ func main() {
 	}()
 
 	for res := range ordersOut {
-		output := transformer.TransformerOutput(res)
+		output := transformer.TransformOutput(res)
 		outputJson, err := json.MarshalIndent(output, "", "  ")
 		fmt.Println(string(outputJson))
 		if err != nil {
 			fmt.Println(err)
 		}
-
 		producer.Publish(outputJson, []byte("orders"), "output")
 	}
 }

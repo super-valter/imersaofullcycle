@@ -33,7 +33,6 @@ func (i *Investor) GetAssetPosition(assetID string) *InvestorAssetPosition {
 		}
 	}
 	return nil
-
 }
 
 type InvestorAssetPosition struct {

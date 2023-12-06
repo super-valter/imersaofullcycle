@@ -17,12 +17,14 @@ func (p *Producer) Publish(msg interface{}, key []byte, topic string) error {
 	if err != nil {
 		return err
 	}
-	messsage := &ckafka.Message{
+
+	message := &ckafka.Message{
 		TopicPartition: ckafka.TopicPartition{Topic: &topic, Partition: ckafka.PartitionAny},
 		Key:            key,
 		Value:          msg.([]byte),
 	}
-	err = producer.Produce(messsage, nil)
+
+	err = producer.Produce(message, nil)
 	if err != nil {
 		return err
 	}
